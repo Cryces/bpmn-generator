@@ -120,6 +120,7 @@ kotlin {
                 implementation("io.kvision:kvision-state:$kvisionVersion")
                 implementation("io.kvision:kvision-fontawesome:$kvisionVersion")
                 implementation("io.kvision:kvision-i18n:$kvisionVersion")
+                implementation("io.kvision:kvision-state:$kvisionVersion")
                 implementation(npm("bpmn-js", bpmnJsVersion))
             }
             kotlin.srcDir("build/generated-src/frontend")

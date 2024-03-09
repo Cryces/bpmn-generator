@@ -1,5 +1,8 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.panel
 
+import at.jit.bpmn.generator.Address
+import at.jit.bpmn.generator.AppScope
+import at.jit.bpmn.generator.model.Model
 import io.kvision.core.onEvent
 import io.kvision.form.FormPanel
 import io.kvision.form.check.CheckBox

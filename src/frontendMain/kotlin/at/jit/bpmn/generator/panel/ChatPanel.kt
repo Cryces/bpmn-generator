@@ -1,5 +1,6 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.panel
 
+import at.jit.bpmn.generator.service.XmlManipulatorService
 import io.kvision.core.CssSize
 import io.kvision.core.Overflow
 import io.kvision.core.UNIT
@@ -10,7 +11,6 @@ import io.kvision.html.div
 import io.kvision.panel.SimplePanel
 import io.kvision.utils.px
 import kotlinx.browser.document
-import org.w3c.dom.Element
 
 object ChatPanel : SimplePanel() {
 
@@ -30,9 +30,15 @@ object ChatPanel : SimplePanel() {
                 if (e.asDynamic().key == "Enter") {
                     val message = self.value
                     self.value = ""
-                    chatDisplay.add(div {
-                        +(message ?: "ERRRRRRRRRRRRROR")
-                    })
+                    message?.let {
+                        when (message) {
+                            "add" -> XmlManipulatorService.addServiceTask()
+                            "end" -> XmlManipulatorService.addEndEvent()
+                            else -> chatDisplay.add(div {
+                                +(message)
+                            })
+                        }
+                    }
                     // Scroll chatDisplay to the bottom
                     document.getElementById("chat-display")?.scrollTop =
                         document.getElementById("chat-display")?.scrollHeight?.toDouble() ?: 0.0

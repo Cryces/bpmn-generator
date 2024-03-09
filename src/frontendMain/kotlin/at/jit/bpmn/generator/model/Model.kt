@@ -1,5 +1,7 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.model
 
+import at.jit.bpmn.generator.*
+import at.jit.bpmn.generator.security.Security
 import io.kvision.state.ObservableList
 import io.kvision.state.ObservableValue
 import io.kvision.state.observableListOf

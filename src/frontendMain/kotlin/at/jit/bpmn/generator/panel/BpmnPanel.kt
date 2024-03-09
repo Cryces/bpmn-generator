@@ -1,34 +1,36 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.panel
 
-import bpmnXML
+import at.jit.bpmn.generator.service.BpmnNavigatedViewer
+import at.jit.bpmn.generator.state.bpmnState
 import io.kvision.core.Overflow
 import io.kvision.html.Div
 import io.kvision.panel.SimplePanel
 import io.kvision.snabbdom.VNode
-import io.kvision.utils.pc
+import io.kvision.utils.vh
 import org.w3c.dom.events.Event
 
-@JsModule("bpmn-js")
-@JsNonModule
-external val BpmnJSModule: dynamic
 
 object BpmnPanel : SimplePanel() {
 
+    private var bpmnViewer: dynamic = null
+
+
     private val canvas = Div().apply {
         id = "canvas"
-        height = 100.pc
+        height = 100.vh
         overflow = Overflow.AUTO
     }
 
     init {
         id = "bpmn-panel"
         add(canvas)
+        bpmnState.subscribe { loadXml() }
     }
 
     override fun afterInsert(node: VNode) {
         super.afterInsert(node)
 
-        val BpmnJS = BpmnJSModule.default
+        val BpmnJS = BpmnNavigatedViewer.default
         val bpmnViewerOptions = js(
             """
                 {
@@ -40,7 +42,7 @@ object BpmnPanel : SimplePanel() {
                 }
                 """
         )
-        val bpmnViewer = js("new BpmnJS(bpmnViewerOptions)")
+        bpmnViewer = js("new BpmnJS(bpmnViewerOptions)")
 
         bpmnViewer.on("import.done") { eventData: Event ->
             if (!(eventData.asDynamic().error as Boolean)) {
@@ -68,14 +70,22 @@ object BpmnPanel : SimplePanel() {
             console.log("BPMN rendering complete")
         }
 
-        bpmnViewer.importXML(bpmnXML, null)
-            .then { warnings: dynamic ->
-                // Handle warnings if needed
-                console.log("BPMN import warnings:", warnings)
+//        bpmnState.subscribe { bpmnViewer ->
+//            console.log("bpmnViewer has changed!")
+//            loadXml()
+//        }
+    }
 
-            }
-            .catch { error ->
-                console.error("Error importing BPMN XML:", error)
-            }
+    private fun loadXml() {
+        if (bpmnViewer != null) {
+            bpmnViewer.importXML(bpmnState.value, null)
+                .then { warnings: dynamic ->
+                    console.log("BPMN import warnings:", warnings)
+                    undefined
+                }
+                .catch { error ->
+                    console.error("Error importing BPMN XML:", error)
+                }
+        }
     }
 }

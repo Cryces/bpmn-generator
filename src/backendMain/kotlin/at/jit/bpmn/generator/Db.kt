@@ -16,12 +16,18 @@ import java.sql.*
 
 object Db {
 
+    private lateinit var hikariDataSource: HikariDataSource
+
     fun init(config: ApplicationConfig) {
-        Database.connect(hikari(config))
+        hikariDataSource = hikari(config)
+        Database.connect(hikariDataSource)
         transaction {
             create(UserDao)
             create(AddressDao)
         }
+        Runtime.getRuntime().addShutdownHook(Thread {
+            hikariDataSource.close()
+        })
     }
 
     private fun hikari(config: ApplicationConfig): HikariDataSource {
@@ -33,6 +39,7 @@ object Db {
         hikariConfig.maximumPoolSize = 3
         hikariConfig.isAutoCommit = false
         hikariConfig.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+        hikariConfig.idleTimeout = 60000
         hikariConfig.validate()
         return HikariDataSource(hikariConfig)
     }

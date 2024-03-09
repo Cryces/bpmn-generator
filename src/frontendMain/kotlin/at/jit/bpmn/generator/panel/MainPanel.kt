@@ -1,5 +1,6 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.panel
 
+import at.jit.bpmn.generator.model.Model
 import io.kvision.core.JustifyContent
 import io.kvision.html.ButtonStyle
 import io.kvision.html.button

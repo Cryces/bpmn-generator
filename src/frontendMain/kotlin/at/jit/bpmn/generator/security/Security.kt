@@ -1,5 +1,8 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.security
 
+import at.jit.bpmn.generator.AppScope
+import at.jit.bpmn.generator.model.Model
+import at.jit.bpmn.generator.Profile
 import io.kvision.core.onEvent
 import io.kvision.form.FormPanel
 import io.kvision.form.formPanel

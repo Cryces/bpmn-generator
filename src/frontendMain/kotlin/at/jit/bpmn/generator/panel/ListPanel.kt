@@ -1,5 +1,7 @@
-package at.jit.bpmn.generator
+package at.jit.bpmn.generator.panel
 
+import at.jit.bpmn.generator.model.Model
+import at.jit.bpmn.generator.Sort
 import io.kvision.core.AlignItems
 import io.kvision.core.FontStyle
 import io.kvision.core.onEvent

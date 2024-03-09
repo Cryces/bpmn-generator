@@ -1,5 +1,10 @@
+// App.kt
 package at.jit.bpmn.generator
 
+import at.jit.bpmn.generator.bpmn.ModelerBox
+import at.jit.bpmn.generator.model.Model
+import at.jit.bpmn.generator.panel.BpmnPanel
+import at.jit.bpmn.generator.panel.ChatPanel
 import io.kvision.Application
 import io.kvision.BootstrapModule
 import io.kvision.CoreModule
@@ -42,6 +47,7 @@ class App : Application() {
                 add(ChatPanel)
                 add(BpmnPanel)
             }
+            add(ModelerBox)
         }
         AppScope.launch {
             Model.getAddressList()
